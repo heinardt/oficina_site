@@ -2,100 +2,101 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mecânica Leivas</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
-    h1 { color: #333; }
-    label { display: block; margin-top: 10px; }
-    select, input, textarea { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; }
-    button { margin-top: 20px; padding: 10px 20px; background: #28a745; color: #fff; border: none; cursor: pointer; border-radius: 5px; font-size: 16px; }
-    button:hover { background: #218838; }
-    .servicos { margin-top: 15px; padding: 10px; background: #fff; border-radius: 5px; }
-    .container { max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    header { text-align: center; margin-bottom: 20px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #222;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    main {
+      max-width: 600px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background: green;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background: darkgreen;
+    }
   </style>
 </head>
 <body>
+  <header>
+    <h1>🚗 Mecânica Leivas</h1>
+    <p>Agende seu atendimento online!</p>
+  </header>
 
-  <div class="container">
-    <header>
-      <h1>Mecânica Leivas</h1>
-      <p>Seu carro em boas mãos 🚗👨‍🔧</p>
-    </header>
-
-    <form id="formOrcamento">
-      <label>Nome:</label>
+  <main>
+    <form id="formAgendamento">
+      <label for="nome">Seu nome:</label>
       <input type="text" id="nome" required>
 
-      <label>Telefone (WhatsApp):</label>
-      <input type="text" id="telefone" placeholder="(99) 99999-9999" required>
+      <label for="contato">Número de contato:</label>
+      <input type="text" id="contato" placeholder="(53) 99999-9999" required>
 
-      <label>Modelo do veículo:</label>
+      <label for="modelo">Modelo do veículo:</label>
       <input type="text" id="modelo" required>
 
-      <label>Ano do veículo:</label>
+      <label for="ano">Ano do veículo:</label>
       <input type="number" id="ano" required>
 
-      <label>Problema:</label>
-      <select id="problema" required>
-        <option value="">Selecione...</option>
-        <option value="freio">Freio fazendo barulho</option>
-        <option value="motor">Motor falhando</option>
-        <option value="eletrica">Parte elétrica</option>
-        <option value="suspensao">Suspensão</option>
-      </select>
+      <label for="problema">O que está acontecendo?</label>
+      <textarea id="problema" rows="4" required></textarea>
 
-      <div id="opcoesServico" class="servicos" style="display:none;"></div>
-
-      <label>Data do agendamento:</label>
-      <input type="date" id="data" required>
-
-      <button type="button" onclick="enviarWhatsApp()">Enviar</button>
+      <button type="button" onclick="enviarWhatsApp()">Agendar pelo WhatsApp</button>
     </form>
-  </div>
+  </main>
 
   <script>
-    const problemaSelect = document.getElementById("problema");
-    const opcoesDiv = document.getElementById("opcoesServico");
-
-    problemaSelect.addEventListener("change", () => {
-      let html = "";
-      switch (problemaSelect.value) {
-        case "freio":
-          html = "<p>Opções de serviço:</p><ul><li>Troca de pastilhas - R$120</li><li>Revisão completa do freio - R$200</li></ul>";
-          break;
-        case "motor":
-          html = "<p>Opções de serviço:</p><ul><li>Troca de velas - R$150</li><li>Revisão completa do motor - R$500</li></ul>";
-          break;
-        case "eletrica":
-          html = "<p>Opções de serviço:</p><ul><li>Troca de bateria - R$250</li><li>Revisão elétrica - R$300</li></ul>";
-          break;
-        case "suspensao":
-          html = "<p>Opções de serviço:</p><ul><li>Troca de amortecedores - R$400</li><li>Revisão suspensão - R$350</li></ul>";
-          break;
-        default:
-          html = "";
-      }
-      opcoesDiv.innerHTML = html;
-      opcoesDiv.style.display = html ? "block" : "none";
-    });
-
     function enviarWhatsApp() {
-      const nome = document.getElementById("nome").value;
-      const telefone = document.getElementById("telefone").value;
-      const modelo = document.getElementById("modelo").value;
-      const ano = document.getElementById("ano").value;
-      const problema = document.getElementById("problema").options[problemaSelect.selectedIndex].text;
-      const data = document.getElementById("data").value;
+      let nome = document.getElementById("nome").value;
+      let contato = document.getElementById("contato").value;
+      let modelo = document.getElementById("modelo").value;
+      let ano = document.getElementById("ano").value;
+      let problema = document.getElementById("problema").value;
 
-      const mensagem = `Olá, meu nome é ${nome}. 
-Telefone: ${telefone}
-Veículo: ${modelo} - ${ano}
-Problema: ${problema}
-Gostaria de agendar para o dia ${data}
-const url = https://wa.me/qr/YWCMPP5QQBW3A1
-       window.open(url, "_blank");
-     } 
-     </script>
+      let mensagem = `Olá, meu nome é ${nome}. 
+Telefone: ${contato}.
+Veículo: ${modelo} - ${ano}.
+Problema: ${problema}.
+Gostaria de agendar um horário.`;
+
+      let url = "https://wa.me/5553999067171?text=" + encodeURIComponent(mensagem);
+
+      window.open(url, "_blank");
+    }
+  </script>
 </body>
 </html>
